@@ -8,7 +8,7 @@
     "dev:client": "vite",
     "dev:server": "tsx server/index.ts",
     "start": "tsx server/index.ts",
-    "build": "tsc -b && vite build",
+    "build": "npx tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "verify:prod": "node scripts/verify-production.mjs",
