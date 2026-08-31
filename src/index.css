@@ -1,0 +1,321 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* ─── shadcn/ui custom variants ─────────────────────────────────────────── */
+@custom-variant dark (&:is(.dark *));
+@custom-variant data-open (&[data-state='open']);
+@custom-variant data-closed (&[data-state='closed']);
+@custom-variant data-active (&[data-state='active']);
+@custom-variant data-horizontal (&[data-orientation='horizontal']);
+@custom-variant data-vertical (&[data-orientation='vertical']);
+@custom-variant data-disabled (&:is([data-disabled='true'], [data-disabled=''] *));
+@custom-variant data-placeholder (&[data-placeholder]);
+
+/* ─── motion keyframes (transform + opacity only) ───────────────────────── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aura-drift {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    opacity: 0.5;
+    transform: translate(2%, -3%) scale(1.04);
+  }
+  66% {
+    opacity: 0.4;
+    transform: translate(-2%, 2%) scale(0.98);
+  }
+}
+
+@keyframes typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ─── theme tokens (maps CSS variables → Tailwind utilities) ───────────── */
+@theme inline {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* chat bubbles */
+  --color-chat-user: var(--chat-user-bg);
+  --color-chat-user-foreground: var(--chat-user-text);
+  --color-chat-assistant: var(--chat-assistant-bg);
+  --color-chat-assistant-foreground: var(--chat-assistant-text);
+
+  /* five-step mood scale */
+  --color-mood-1: var(--mood-1);
+  --color-mood-2: var(--mood-2);
+  --color-mood-3: var(--mood-3);
+  --color-mood-4: var(--mood-4);
+  --color-mood-5: var(--mood-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-rise: rise 0.45s ease-out both;
+  --animate-aura-drift: aura-drift 20s ease-in-out infinite;
+  --animate-typing-bounce: typing-bounce 1.2s ease-in-out infinite;
+  --animate-caret-blink: caret-blink 1s step-end infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME BLOCK — re-theme the entire app from here
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --background: oklch(0.97 0.012 85); /* warm off-white paper */
+  --foreground: oklch(0.28 0.025 155); /* deep moss-tinted ink */
+  --card: oklch(0.99 0.008 85);
+  --card-foreground: oklch(0.28 0.025 155);
+  --popover: oklch(0.99 0.008 85);
+  --popover-foreground: oklch(0.28 0.025 155);
+
+  /* brand */
+  --primary: oklch(0.38 0.065 155); /* deep moss green */
+  --primary-foreground: oklch(0.97 0.012 85);
+  --secondary: oklch(0.93 0.018 85);
+  --secondary-foreground: oklch(0.32 0.03 155);
+  --accent: oklch(0.82 0.045 45); /* soft clay — use sparingly */
+  --accent-foreground: oklch(0.32 0.04 45);
+
+  /* utility */
+  --muted: oklch(0.94 0.014 85);
+  --muted-foreground: oklch(0.48 0.02 155);
+  --destructive: oklch(0.52 0.14 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.88 0.02 85);
+  --input: oklch(0.9 0.018 85);
+  --ring: oklch(0.45 0.06 155);
+  --radius: 0.75rem;
+
+  /* charts / sidebar (harmonised with palette) */
+  --chart-1: oklch(0.38 0.065 155);
+  --chart-2: oklch(0.55 0.07 155);
+  --chart-3: oklch(0.72 0.05 155);
+  --chart-4: oklch(0.82 0.045 45);
+  --chart-5: oklch(0.62 0.08 25);
+  --sidebar: oklch(0.95 0.014 85);
+  --sidebar-foreground: oklch(0.28 0.025 155);
+  --sidebar-primary: oklch(0.38 0.065 155);
+  --sidebar-primary-foreground: oklch(0.97 0.012 85);
+  --sidebar-accent: oklch(0.93 0.018 85);
+  --sidebar-accent-foreground: oklch(0.32 0.03 155);
+  --sidebar-border: oklch(0.88 0.02 85);
+  --sidebar-ring: oklch(0.45 0.06 155);
+
+  /* chat bubbles — tuned for WCAG AA body text on both themes */
+  --chat-user-bg: oklch(0.36 0.07 155);
+  --chat-user-text: oklch(0.98 0.008 85);
+  --chat-assistant-bg: oklch(0.99 0.008 85);
+  --chat-assistant-text: oklch(0.26 0.028 155);
+
+  /* mood scale: 1 = struggling → 5 = light */
+  --mood-1: oklch(0.58 0.1 25); /* struggling — muted terracotta */
+  --mood-2: oklch(0.68 0.07 45); /* low — soft clay */
+  --mood-3: oklch(0.78 0.03 85); /* okay — warm neutral */
+  --mood-4: oklch(0.62 0.06 155); /* steady — sage */
+  --mood-5: oklch(0.72 0.08 155); /* light — bright sage */
+
+  /* ambient aura (background decoration) */
+  --aura-primary: oklch(0.55 0.08 155 / 0.18);
+  --aura-accent: oklch(0.82 0.045 45 / 0.12);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: oklch(0.18 0.022 155); /* forest night */
+  --foreground: oklch(0.93 0.012 85);
+  --card: oklch(0.22 0.024 155);
+  --card-foreground: oklch(0.93 0.012 85);
+  --popover: oklch(0.22 0.024 155);
+  --popover-foreground: oklch(0.93 0.012 85);
+
+  --primary: oklch(0.62 0.085 155); /* lifted moss */
+  --primary-foreground: oklch(0.18 0.022 155);
+  --secondary: oklch(0.26 0.024 155);
+  --secondary-foreground: oklch(0.9 0.012 85);
+  --accent: oklch(0.45 0.05 45); /* muted clay */
+  --accent-foreground: oklch(0.93 0.012 85);
+
+  --muted: oklch(0.26 0.022 155);
+  --muted-foreground: oklch(0.68 0.02 155);
+  --destructive: oklch(0.58 0.14 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.32 0.024 155);
+  --input: oklch(0.3 0.024 155);
+  --ring: oklch(0.55 0.08 155);
+
+  --chart-1: oklch(0.62 0.085 155);
+  --chart-2: oklch(0.52 0.07 155);
+  --chart-3: oklch(0.72 0.05 155);
+  --chart-4: oklch(0.45 0.05 45);
+  --chart-5: oklch(0.58 0.1 25);
+  --sidebar: oklch(0.2 0.022 155);
+  --sidebar-foreground: oklch(0.93 0.012 85);
+  --sidebar-primary: oklch(0.62 0.085 155);
+  --sidebar-primary-foreground: oklch(0.18 0.022 155);
+  --sidebar-accent: oklch(0.26 0.024 155);
+  --sidebar-accent-foreground: oklch(0.9 0.012 85);
+  --sidebar-border: oklch(0.32 0.024 155);
+  --sidebar-ring: oklch(0.55 0.08 155);
+
+  --chat-user-bg: oklch(0.36 0.075 155);
+  --chat-user-text: oklch(0.98 0.01 85);
+  --chat-assistant-bg: oklch(0.24 0.024 155);
+  --chat-assistant-text: oklch(0.95 0.012 85);
+
+  --mood-1: oklch(0.52 0.1 25);
+  --mood-2: oklch(0.48 0.06 45);
+  --mood-3: oklch(0.42 0.025 155);
+  --mood-4: oklch(0.55 0.07 155);
+  --mood-5: oklch(0.65 0.09 155);
+
+  --aura-primary: oklch(0.45 0.07 155 / 0.22);
+  --aura-accent: oklch(0.45 0.05 45 / 0.14);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+/* ─── motion utility classes ──────────────────────────────────────────────── */
+@layer utilities {
+  .animate-rise {
+    animation: var(--animate-rise);
+  }
+
+  .animate-aura-drift {
+    animation: var(--animate-aura-drift);
+  }
+
+  .animate-typing-bounce {
+    animation: var(--animate-typing-bounce);
+  }
+
+  .animate-caret-blink {
+    animation: var(--animate-caret-blink);
+  }
+
+  .bg-aura {
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, var(--aura-primary), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 80%, var(--aura-accent), transparent 70%);
+  }
+}
+
+/* ─── prefers-reduced-motion (OS + Settings override) ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion='allow']) *,
+  html:not([data-motion='allow']) *::before,
+  html:not([data-motion='allow']) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html:not([data-motion='allow']) .animate-rise,
+  html:not([data-motion='allow']) .animate-aura-drift,
+  html:not([data-motion='allow']) .animate-typing-bounce,
+  html:not([data-motion='allow']) .animate-caret-blink {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+html[data-motion='reduce'] *,
+html[data-motion='reduce'] *::before,
+html[data-motion='reduce'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html[data-motion='reduce'] .animate-rise,
+html[data-motion='reduce'] .animate-aura-drift,
+html[data-motion='reduce'] .animate-typing-bounce,
+html[data-motion='reduce'] .animate-caret-blink {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
